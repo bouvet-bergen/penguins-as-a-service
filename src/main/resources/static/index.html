@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Penguins as a service</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+        //INSERT YOUR TEST KEY HERE
+        const stripe = Stripe('pk_test_*********');
+
+        function startPurchase(planId) {
+            createSession(planId).then(sessionId => {
+                stripe.redirectToCheckout({sessionId: sessionId})
+            })
+        }
+
+        async function createSession(selectedPlan) {
+            let response = await fetch(`/createSession/${selectedPlan}`, {method: 'post'});
+            return response.text();
+        }
+    </script>
+</head>
+<body>
+    <h1>Penguins as a service!</h1>
+
+    <h3>Abonner på daglig Keiserpingvin direkte til din epost!</h3>
+
+    <!-- INSERT YOUR PLAN IDs HERE-->
+    <button onclick=startPurchase('plan_********')>Kjøp månedsabonnement!</button>
+    <button onclick=startPurchase('plan_********')>Kjøp årsabonnement!</button>
+
+</body>
+</html>
